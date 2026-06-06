@@ -25,6 +25,16 @@
   --warning-glow: rgba(245, 158, 11, 0.2);
   --info: #06b6d4;
 
+  /* Status colors */
+  --status-todo: #94a3b8;
+  --status-progress: #f59e0b;
+  --status-done: #10b981;
+
+  /* Priority colors */
+  --priority-high: #ef4444;
+  --priority-medium: #f59e0b;
+  --priority-low: #10b981;
+
   --border: rgba(255, 255, 255, 0.08);
   --border-hover: rgba(255, 255, 255, 0.15);
 
@@ -65,7 +75,7 @@ body::after {
   position: fixed;
   border-radius: 50%;
   filter: blur(120px);
-  opacity: 0.15;
+  opacity: 0.12;
   z-index: -1;
   animation: floatBlob 20s ease-in-out infinite;
 }
@@ -96,6 +106,7 @@ body::after {
 /* Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
@@ -106,4 +117,10 @@ body::after {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--text-secondary);
+}
+
+/* Selection */
+::selection {
+  background: rgba(99, 102, 241, 0.3);
+  color: white;
 }

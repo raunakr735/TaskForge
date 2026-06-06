@@ -14,27 +14,45 @@ const taskSchema = new mongoose.Schema(
       default: '',
       maxlength: [2000, 'Description cannot exceed 2000 characters'],
     },
-    completed: {
-      type: Boolean,
-      default: false,
+    status: {
+      type: String,
+      enum: {
+        values: ['To Do', 'In Progress', 'Done'],
+        message: '{VALUE} is not a valid status',
+      },
+      default: 'To Do',
+    },
+    priority: {
+      type: String,
+      enum: {
+        values: ['Low', 'Medium', 'High'],
+        message: '{VALUE} is not a valid priority',
+      },
+      default: 'Medium',
     },
     dueDate: {
       type: Date,
       default: null,
     },
-    category: {
-      type: String,
-      trim: true,
-      default: 'General',
-      enum: {
-        values: ['General', 'Work', 'Personal', 'Shopping', 'Health', 'Education', 'Finance', 'Other'],
-        message: '{VALUE} is not a valid category',
-      },
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    assignedTo: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      default: null,
     },
   },
   {
     timestamps: true,
   }
 );
+
+// Index for efficient querying
+taskSchema.index({ createdBy: 1, status: 1 });
+taskSchema.index({ assignedTo: 1, status: 1 });
+taskSchema.index({ title: 'text', description: 'text' });
 
 module.exports = mongoose.model('Task', taskSchema);

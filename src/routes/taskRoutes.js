@@ -4,17 +4,18 @@ const {
   createTask,
   getAllTasks,
   getTaskById,
+  getTaskStats,
   updateTask,
-  markComplete,
   deleteTask,
 } = require('../controllers/taskController');
-const { createTaskRules, updateTaskRules, validate } = require('../middleware/validate');
+const { protect } = require('../middleware/auth');
+const { createTaskValidation, updateTaskValidation } = require('../middleware/validate');
 
-router.post('/', createTaskRules, validate, createTask);
-router.get('/', getAllTasks);
-router.get('/:id', getTaskById);
-router.put('/:id', updateTaskRules, validate, updateTask);
-router.patch('/:id/complete', markComplete);
-router.delete('/:id', deleteTask);
+router.get('/stats', protect, getTaskStats);
+router.post('/', protect, createTaskValidation, createTask);
+router.get('/', protect, getAllTasks);
+router.get('/:id', protect, getTaskById);
+router.put('/:id', protect, updateTaskValidation, updateTask);
+router.delete('/:id', protect, deleteTask);
 
 module.exports = router;
